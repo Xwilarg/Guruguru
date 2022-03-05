@@ -49,7 +49,7 @@ namespace Guruguru.ViewModels
                         }));
                     });
                 }
-                Thread.Sleep(2000);
+                Thread.Sleep(Delay * 1000);
             }
         }
 
@@ -59,6 +59,19 @@ namespace Guruguru.ViewModels
         public Interaction<Unit, string> GetFolder { get; } = new();
         public Interaction<Unit, double> GetWidth { get; } = new();
         public ICommand SelectFolder { get; }
+
+        private int _delay;
+        public int Delay
+        {
+            get
+            {
+                if (_delay < 1)
+                {
+                    return 1;
+                }
+                return _delay;
+            }
+        }
 
         private Bitmap _imageSource;
         public Bitmap ImageSource
