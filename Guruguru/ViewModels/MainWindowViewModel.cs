@@ -60,17 +60,14 @@ namespace Guruguru.ViewModels
         public Interaction<Unit, double> GetWidth { get; } = new();
         public ICommand SelectFolder { get; }
 
-        private int _delay;
+        private int _delay = 1;
         public int Delay
         {
-            get
+            set
             {
-                if (_delay < 1)
-                {
-                    return 1;
-                }
-                return _delay;
+                this.RaiseAndSetIfChanged(ref _delay, value > 1 ? value : 1);
             }
+            get => _delay;
         }
 
         private Bitmap _imageSource;
