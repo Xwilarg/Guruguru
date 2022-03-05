@@ -1,4 +1,5 @@
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using ReactiveUI;
 using System;
 using System.IO;
@@ -39,8 +40,14 @@ namespace Guruguru.ViewModels
                         _index++;
                     }
 
-                    using var stream = File.OpenRead(_images[_index]);
-                    ImageSource = Bitmap.DecodeToWidth(stream, 500);
+                    Dispatcher.UIThread.Post(() =>
+                    {
+                        GetWidth.Handle(Unit.Default).Subscribe(Observer.Create<double>(width =>
+                        {
+                            using var stream = File.OpenRead(_images[_index]);
+                            ImageSource = Bitmap.DecodeToWidth(stream, (int)width);
+                        }));
+                    });
                 }
                 Thread.Sleep(2000);
             }
@@ -50,6 +57,7 @@ namespace Guruguru.ViewModels
         private int _index;
 
         public Interaction<Unit, string> GetFolder { get; } = new();
+        public Interaction<Unit, double> GetWidth { get; } = new();
         public ICommand SelectFolder { get; }
 
         private Bitmap _imageSource;

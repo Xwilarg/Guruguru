@@ -20,6 +20,7 @@ namespace Guruguru.Views
             this.WhenActivated(_ =>
             {
                 ViewModel.GetFolder.RegisterHandler(GetFolder);
+                ViewModel.GetWidth.RegisterHandler(GetWidth);
             });
         }
 
@@ -28,6 +29,11 @@ namespace Guruguru.Views
             var dialog = new OpenFolderDialog();
             var folder = await dialog.ShowAsync((Window)VisualRoot).ConfigureAwait(false);
             ctx.SetOutput(folder);
+        }
+
+        private async Task GetWidth(InteractionContext<Unit, double> ctx)
+        {
+            ctx.SetOutput(((Window)VisualRoot).Bounds.Width);
         }
     }
 }
