@@ -18,7 +18,8 @@
 			<RowDefinition Height="5" />
 		</Grid.RowDefinitions>
 		
-		<Image Grid.Row="0"/>
+		<Image Grid.Row="0"
+			   Source="{Binding ImageSource}"/>
 
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
