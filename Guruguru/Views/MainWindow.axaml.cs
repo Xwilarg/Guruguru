@@ -22,6 +22,10 @@ namespace Guruguru.Views
                 ViewModel.GetFolder.RegisterHandler(GetFolder);
                 ViewModel.GetWidth.RegisterHandler(GetWidth);
             });
+            this.Closed += (sender, e) =>
+            {
+                ViewModel.Close();
+            };
         }
 
         private async Task GetFolder(InteractionContext<Unit, string> ctx)

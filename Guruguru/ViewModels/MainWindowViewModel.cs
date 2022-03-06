@@ -26,9 +26,14 @@ namespace Guruguru.ViewModels
             new Thread(new ThreadStart(ChangeImage)).Start();
         }
 
-        public void ChangeImage()
+        public void Close()
         {
-            while (Thread.CurrentThread.IsAlive)
+            _isAlive = false;
+        }
+
+        private void ChangeImage()
+        {
+            while (Thread.CurrentThread.IsAlive && _isAlive)
             {
                 if (_images.Any())
                 {
@@ -51,18 +56,21 @@ namespace Guruguru.ViewModels
                     });
                     if (_doesPlayAudio)
                     {
-                        SystemSounds.Beep.Play();
+                        _bip.Play();
                     }
                 }
-                for (int i = 0; i < Delay; i++)
+                for (int i = 0; i < Delay && _isAlive; i++)
                 {
                     Thread.Sleep(1000);
                 }
             }
         }
 
+        private bool _isAlive = true;
         private string[] _images = Array.Empty<string>();
         private int _index;
+
+        private SoundPlayer _bip = new("Assets/Bip.wav");
 
         public Interaction<Unit, string> GetFolder { get; } = new();
         public Interaction<Unit, double> GetWidth { get; } = new();
