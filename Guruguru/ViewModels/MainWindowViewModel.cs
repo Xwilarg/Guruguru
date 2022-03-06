@@ -4,6 +4,7 @@ using ReactiveUI;
 using System;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Reactive;
 using System.Threading;
 using System.Windows.Input;
@@ -48,6 +49,10 @@ namespace Guruguru.ViewModels
                             ImageSource = Bitmap.DecodeToWidth(stream, (int)width);
                         }));
                     });
+                    if (_doesPlayAudio)
+                    {
+                        SystemSounds.Beep.Play();
+                    }
                 }
                 Thread.Sleep(Delay * 1000);
             }
@@ -75,6 +80,13 @@ namespace Guruguru.ViewModels
         {
             get => _imageSource;
             set => this.RaiseAndSetIfChanged(ref _imageSource, value);
+        }
+
+        private bool _doesPlayAudio = true;
+        public bool DoesPlayAudio
+        {
+            get => _doesPlayAudio;
+            set => this.RaiseAndSetIfChanged(ref _doesPlayAudio, value);
         }
     }
 }
