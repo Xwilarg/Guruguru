@@ -54,7 +54,10 @@ namespace Guruguru.ViewModels
                         SystemSounds.Beep.Play();
                     }
                 }
-                Thread.Sleep(Delay * 1000);
+                for (int i = 0; i < Delay; i++)
+                {
+                    Thread.Sleep(1000);
+                }
             }
         }
 
